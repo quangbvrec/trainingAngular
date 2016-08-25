@@ -1,0 +1,13 @@
+<html>
+<title>Vi du Expression trong AngularJS</title>
+<body>
+<h1>Ung dung AngularJS</h1>
+<div ng-app="" ng-init="soluong=2;gia=40; sinhvien={ho:'Tran Minh',ten:'Chinh',mssv:20150678};diemthi=[8.5,9,7.5,9,6.0];monthi=['toan','ly','hoa']">
+   <p>Xin chao {{sinhvien.ho + " " + sinhvien.ten}}!</p>   
+   <p>MSSV: {{sinhvien.mssv}}</p>
+   <p>Chi phi muon sach: {{gia * soluong}}.000 VND</p>
+   <p>Diem thi {{monthi[1]}}: {{diemthi[3]}}</p>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</body>
+</html>
