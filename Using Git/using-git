@@ -1,0 +1,26 @@
+
+
+C:\Users\quangbv>E:
+
+E:\>cd Java
+
+E:\Java>cd trainingAngular
+
+E:\Java\trainingAngular>dir
+
+E:\Java\trainingAngular>git add .
+
+E:\Java\trainingAngular>git status
+
+
+
+E:\Java\trainingAngular>git commit -m "commit code angular"
+
+E:\Java\trainingAngular>git pull origin master
+
+
+E:\Java\trainingAngular>git push origin master
+
+
+E:\Java\trainingAngular>
+
