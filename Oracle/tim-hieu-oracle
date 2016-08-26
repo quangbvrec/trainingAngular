@@ -1,0 +1,91 @@
+Quá trình tìm hiểu Oracle:
+
+
+1. Tải và cài đặt Oracle 11g bản 32 bit
+
+2. Tải và cài đặt SQL Developer
+
+3. Mở SQL developer, chọn file java.exe trong thư mục bin cài JDK
+
+4. Chọn new connection, sau đó đăng nhập vào tài khoản system với thông tin
+
+Connection Name : admin
+Username: system
+Password: 1234
+Hostname: localhost
+Port: 1521
+SID : orcl
+
+5. Sau đó vào phần Other user, chọn create Username
+Username : hr_demo
+Password: 1234
+Default tablespace : Users
+Temporary Tablespace: TEMP
+trong tab role chọn grant all, sau đó ấn Apply để kết thúc tạo user
+
+6. Tạo connection khác
+Connection Name : hr_demo
+Username: hr_demo
+Password: 1234
+Hostname: localhost
+Port: 1521
+SID : orcl
+
+7. Tiến hành tạo bảng, vào table chọn new table
+tạo 3 bảng gồm TBLKHOA, TBLLOP, TBLSINHVIEN
+HR_DEMO.TBLKHOA
+MAKHOA NUMBER 
+TENKHOA VARCHAR2
+
+HR_DEMO.TBLLOP
+MALOP NUMBER 
+TENLOP VARCHAR2
+SOLUONGSV NUMBER
+MAKHOA NUMBER
+
+HR_DEMO.TBLSINHVIEN
+MASV NUMBER
+TENSV VARCHAR2
+NGAYSINH DATE
+DIACHI VARCHAR2
+CHIEUCAO NUMBER
+CANNANG NUMBER
+MALOP NUMBER
+
+8. Tạo sequences để quản lý id tự động tăng
+tạo 3 sequence tblkhoa_seq, tbllop_seq, tblsinhvien_seq
+SQL: CREATE SEQUENCE  "HR_DEMO"."TBLKHOA_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 21 CACHE 20 NOORDER  NOCYCLE ;
+
+8. Tạo trigger : do Oracle không hỗ trợ việc tạo trường id tự động tăng giống như MSSQL lên phải tạo trigger
+để sử dụng sequence
+tạo 3 trigger : tblkhoa_tg, tbllop_tg, tblsinhvien_tg
+SQL: 
+create or replace trigger tblkhoa_tg
+before insert on tblkhoa
+for each row
+begin
+    select tblkhoa_seq.nextval into :new.makhoa from dual;
+end;
+
+9. Tạo khóa ngoại giữa các bảng với nhau.
+
+10. Nhập dữ liệu cho các bảng, do quan hệ giữa các bảng lên sẽ nhập theo thứ tự TBLKHOA > TBLLOP > TBLSINHVIEN
+
+11. Tạo view
+ CREATE OR REPLACE FORCE VIEW "HR_DEMO"."V_LOPSINHVIEN" ("MALOP", "TENLOP", "SOLUONGSV", "MAKHOA", "TENKHOA") AS 
+  select l.malop, l.tenlop,l.soluongsv,l.makhoa, k.tenkhoa from tbllop l join tblkhoa k ON l.makhoa = k.makhoa;
+
+12. Tạo store procedure
+
+create or replace PROCEDURE sp_tblkhoa_insert
+(
+    name IN varchar2
+)
+AS
+BEGIN
+  INSERT INTO TBLKHOA("TENKHOA") values (name); 
+END sp_tblkhoa_insert;
+
+
+thực thi store: execute sp_tblkhoa_insert('CONG NGHE THONG TIN');
+
